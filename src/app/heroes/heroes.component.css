@@ -59,6 +59,10 @@
     cursor: pointer;
     cursor: hand;
     font-family: Arial;
+    width: 22px;
+    height: 22px;
+    position: relative;
+    top: -5px;
   }
   button:hover {
     background-color: #cfd8dc;

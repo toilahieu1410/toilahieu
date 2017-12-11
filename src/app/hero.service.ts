@@ -65,6 +65,14 @@ const httpOptions = {
       }
     }
     
+        /* add thêm 1 new hero tới server */
+        addHero(hero:Hero):Observable<Hero>{
+          return this.http.post<Hero>(this.heroesUrl, hero, httpOptions).pipe(
+          tap((hero:Hero) => this.log(`add hero w/ id=${hero.id}`)),
+          catchError(this.handleError<Hero>(`addHero`))
+        )
+      }
+
     /** PUT: update the hero on the server ( taoj ham` co nut update) */
     updateHero(hero:Hero):Observable<any>{
         return this.http.put(this.heroesUrl, hero, httpOptions).pipe(
@@ -72,13 +80,7 @@ const httpOptions = {
         catchError(this.handleError<any>(`updateHero`))
       )
     }
-    /* add thêm 1 new hero tới server */
-    addHero(hero:Hero):Observable<Hero>{
-        return this.http.post<Hero>(this.heroesUrl, hero, httpOptions).pipe(
-        tap((hero:Hero) => this.log(`add hero w/ id=${hero.id}`)),
-        catchError(this.handleError<Hero>(`addHero`))
-      )
-    }
+
     /* xóa đi 1 hero */
     deleteHero(hero: Hero | number): Observable<Hero> {
       const id = typeof hero === 'number' ? hero : hero.id;
@@ -88,6 +90,17 @@ const httpOptions = {
         tap(_ => this.log(`deleted hero id=${id}`)),
         catchError(this.handleError<Hero>('deleteHero'))
       );
+    }
+    /* Tìm kiếm hero theo tên */
+    searchHero(term: string):Observable<Hero[]>{
+      // nếu không từ tìm kiếm, trở về mảng trống của phương thức heroes.
+      if(!term.trim()){
+        return of([]);
+      }
+      return this.http.get<Hero[]>(`api/heroes/?name=${term}`).pipe(
+        tap(_ => this.log(`found heroes matching "${term}"`)),
+        catchError(this.handleError<Hero[]>('searchHero',[]))
+      )
     }
     /** Đăng nhập một thông báo HeroService với MessageService */
     private log(message: string) {
