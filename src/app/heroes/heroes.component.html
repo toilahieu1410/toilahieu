@@ -1,0 +1,22 @@
+
+<h2>My Heroes</h2>
+<div>
+  <label>
+    Hero name:<input #heroName/>
+  </label>
+  <!-- (Click) thông qua giá trị nhập (), sau đó được nhập vào -->
+  <button (click)="add(heroName.value); heroName.value=''">
+
+  </button>
+</div>
+<ul class="heroes">
+  <!-- *ngFor là các repeater chỉ thị. nó lặp đi lặp lại phần tử máy chủ cho mỗi ptu trong 1 danh sách -->
+  <li *ngFor="let hero of heroes"> 
+    <a routerLink = "/detail/{{hero.id}}">
+    <span class="bagde">{{hero.id}}</span>{{hero.name}}
+    </a>
+    <!-- tạo nút xóa bên cạnh các hero -->
+    <button class="delete" title="delete hero" (click)="delete(hero)">X</button>
+    </li>
+    
+</ul>
